@@ -21,7 +21,7 @@ func Retry[T any](fn func() (T, error), maxRetries int, delay time.Duration, tim
 		if err == nil {
 			return result, nil
 		}
-		timer.Sleep(delay << i) // Exponential backoff
+		timer.Sleep(min(delay<<i, time.Millisecond*100000)) // Exponential backoff
 	}
 
 	return result, err
